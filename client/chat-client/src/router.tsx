@@ -12,6 +12,17 @@ export const router = createBrowserRouter([
     element: <ContextWrapper />,
     children: [
       {
+        path: "/",
+        element: <RootLayout />,
+        children: [
+          { index: true, element: <Home /> },
+          {
+            path: "/channel",
+            children: [{ path: "new", element: <h1>New Channel</h1> }],
+          },
+        ],
+      },
+      {
         element: <AuthLayout />,
         children: [
           { path: "login", element: <Login /> },
