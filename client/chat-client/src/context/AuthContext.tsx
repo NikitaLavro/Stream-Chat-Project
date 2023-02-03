@@ -5,7 +5,7 @@ import { createContext, ReactNode, useContext } from "react";
 const Context = createContext<AuthContext | null>(null);
 
 export function useAuth() {
-  return useContext(Context);
+  return useContext(Context) as AuthContext;
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
