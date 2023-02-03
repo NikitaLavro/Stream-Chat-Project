@@ -1,5 +1,5 @@
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import { useMutation, UseMutationResult } from "@tanstack/react-query";
+import axios, { AxiosResponse } from "axios";
 import { createContext, ReactNode, useContext } from "react";
 
 const Context = createContext<AuthContext | null>(null);
@@ -15,10 +15,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     },
   });
 
-  return <Context.Provider value={{}}>{children}</Context.Provider>;
+  return <Context.Provider value={{ signup }}>{children}</Context.Provider>;
 }
 
-type AuthContext = {};
+type AuthContext = {
+  signup: UseMutationResult<AxiosResponse, unknown, User>;
+};
 
 interface AuthProviderProps {
   children: ReactNode;
