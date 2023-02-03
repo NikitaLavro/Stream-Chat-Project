@@ -7,7 +7,7 @@ import { useAuth } from "../context/AuthContext";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 
-const Signup = () => {
+const Login = () => {
   const { login } = useAuth();
   const usernameRef = useRef<HTMLInputElement>(null);
 
@@ -47,4 +47,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;

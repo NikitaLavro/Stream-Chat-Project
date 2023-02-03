@@ -1,6 +1,12 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
-import { createContext, ReactNode, useContext } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 
 const Context = createContext<AuthContext | null>(null);
@@ -11,6 +17,8 @@ export function useAuth() {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const navigate = useNavigate();
+  const [user, setUser] = useState<User>();
+  const [token, setToken] = useState<string>();
 
   const signup = useMutation({
     mutationFn: (user: User) => {
@@ -26,16 +34,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
       return axios
         .post(`${import.meta.env.VITE_SERVER_URL}/login`, { id })
         .then((res) => {
-          res.data as { token: string; user: User };
+          return res.data as { token: string; user: User };
         });
+    },
+    onSuccess(data) {
+      setUser(data.user);
+      setToken(data.token);
     },
   });
 
-  return <Context.Provider value={{ signup }}>{children}</Context.Provider>;
+  return (
+    <Context.Provider value={{ signup, login }}>{children}</Context.Provider>
+  );
 }
 
 type AuthContext = {
   signup: UseMutationResult<AxiosResponse, unknown, User>;
+  login: UseMutationResult<{ token: string; user: User }, unknown, string>;
 };
 
 interface AuthProviderProps {
