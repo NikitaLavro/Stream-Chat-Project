@@ -3,13 +3,18 @@ import { FormEvent, useRef } from "react";
 //Context
 import { useAuth } from "../context/AuthContext";
 
+//Router
+import { Navigate } from "react-router-dom";
+
 //Components
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 
 const Login = () => {
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const usernameRef = useRef<HTMLInputElement>(null);
+
+  if (user != null) return <Navigate to="/" />;
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();

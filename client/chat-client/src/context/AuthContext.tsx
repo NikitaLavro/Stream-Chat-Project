@@ -1,5 +1,10 @@
+//React Query
 import { useMutation, UseMutationResult } from "@tanstack/react-query";
+
+//Axios
 import axios, { AxiosResponse } from "axios";
+
+//React
 import {
   createContext,
   ReactNode,
@@ -7,7 +12,12 @@ import {
   useEffect,
   useState,
 } from "react";
+
+//Router
 import { useNavigate } from "react-router-dom";
+
+//Stream
+import { StreamChat } from "stream-chat";
 
 const Context = createContext<AuthContext | null>(null);
 
@@ -19,6 +29,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const navigate = useNavigate();
   const [user, setUser] = useState<User>();
   const [token, setToken] = useState<string>();
+  const [streamChat, setStreamChat] = useState<StreamChat>();
 
   const signup = useMutation({
     mutationFn: (user: User) => {
@@ -43,14 +54,39 @@ export function AuthProvider({ children }: AuthProviderProps) {
     },
   });
 
+  useEffect(() => {
+    if (token == null || user == null) return;
+    const chat = new StreamChat(import.meta.env.VITE_STREAM_API_KEY!);
+
+    if (chat.tokenManager.token === token && chat.userID === user.id) return;
+
+    let isInterrupted = false;
+    const connectPromise = chat.connectUser(user, token).then(() => {
+      if (isInterrupted) return;
+      setStreamChat(chat);
+    });
+
+    return () => {
+      isInterrupted = true;
+      setStreamChat(undefined);
+      connectPromise.then(() => {
+        chat.disconnectUser();
+      });
+    };
+  }, [token, user]);
+
   return (
-    <Context.Provider value={{ signup, login }}>{children}</Context.Provider>
+    <Context.Provider value={{ signup, login, user, streamChat }}>
+      {children}
+    </Context.Provider>
   );
 }
 
 type AuthContext = {
   signup: UseMutationResult<AxiosResponse, unknown, User>;
   login: UseMutationResult<{ token: string; user: User }, unknown, string>;
+  user?: User;
+  streamChat?: StreamChat;
 };
 
 interface AuthProviderProps {
