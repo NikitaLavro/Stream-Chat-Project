@@ -21,6 +21,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     },
   });
 
+  const login = useMutation({
+    mutationFn: (id: string) => {
+      return axios
+        .post(`${import.meta.env.VITE_SERVER_URL}/login`, { id })
+        .then((res) => {
+          res.data as { token: string; user: User };
+        });
+    },
+  });
+
   return <Context.Provider value={{ signup }}>{children}</Context.Provider>;
 }
 
