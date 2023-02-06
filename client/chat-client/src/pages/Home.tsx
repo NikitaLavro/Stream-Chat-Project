@@ -48,8 +48,8 @@ const Home = () => {
 
 function Channels({ loadedChannels }: ChannelListMessengerProps) {
   const navigate = useNavigate();
-
   const { setActiveChannel, channel: activeChannel } = useChatContext();
+  const { logout } = useLoggenInAuth();
 
   return (
     <div className="w-60 flex flex-col gap-4 m-3 h-full">
@@ -83,6 +83,10 @@ function Channels({ loadedChannels }: ChannelListMessengerProps) {
             );
           })
         : "No Converstaions"}
+      <hr className="border-gray-500 mt-auto" />
+      <Button onClick={() => logout.mutate()} disabled={logout.isLoading}>
+        Log Out
+      </Button>
     </div>
   );
 }
