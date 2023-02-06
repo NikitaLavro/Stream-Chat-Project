@@ -4,6 +4,9 @@ import { useMutation, UseMutationResult } from "@tanstack/react-query";
 //Axios
 import axios, { AxiosResponse } from "axios";
 
+//Hooks
+import { useLocalStorage } from "../hooks/useLocalStorage";
+
 //React
 import {
   createContext,
@@ -32,8 +35,8 @@ export function useLoggenInAuth() {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const navigate = useNavigate();
-  const [user, setUser] = useState<User>();
-  const [token, setToken] = useState<string>();
+  const [user, setUser] = useLocalStorage<User>("user");
+  const [token, setToken] = useLocalStorage<string>("token");
   const [streamChat, setStreamChat] = useState<StreamChat>();
 
   const signup = useMutation({
