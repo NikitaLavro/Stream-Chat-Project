@@ -25,6 +25,11 @@ export function useAuth() {
   return useContext(Context) as AuthContext;
 }
 
+export function useLoggenInAuth() {
+  return useContext(Context) as AuthContext &
+    Required<Pick<AuthContext, "user">>;
+}
+
 export function AuthProvider({ children }: AuthProviderProps) {
   const navigate = useNavigate();
   const [user, setUser] = useState<User>();

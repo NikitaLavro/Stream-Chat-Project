@@ -13,16 +13,16 @@ import {
 } from "stream-chat-react";
 
 //Context
-import { useAuth } from "../context/AuthContext";
+import { useAuth, useLoggenInAuth } from "../context/AuthContext";
 
 const Home = () => {
-  const { user, streamChat } = useAuth();
+  const { user, streamChat } = useLoggenInAuth();
 
   if (streamChat == null) return <LoadingIndicator></LoadingIndicator>;
 
   return (
     <Chat client={streamChat}>
-      <ChannelList />
+      <ChannelList filters={{ members: { $in: [user.id] } }} />
       <Channel>
         <Window>
           <ChannelHeader />
