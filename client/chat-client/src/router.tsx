@@ -6,6 +6,8 @@ import { Outlet } from "react-router-dom";
 import AuthLayout from "./pages/layouts/AuthLayout";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import RootLayout from "./pages/layouts/RootLayout";
+import Home from "./pages/Home";
 
 export const router = createBrowserRouter([
   {
