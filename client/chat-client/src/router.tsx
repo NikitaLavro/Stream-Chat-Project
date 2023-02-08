@@ -8,7 +8,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import RootLayout from "./pages/layouts/RootLayout";
 import Home from "./pages/Home";
-import Channel from "./pages/channel";
+import Channel from "./pages/Channel";
 
 export const router = createBrowserRouter([
   {
