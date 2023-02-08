@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import RootLayout from "./pages/layouts/RootLayout";
 import Home from "./pages/Home";
+import Channel from "./pages/channel";
 
 export const router = createBrowserRouter([
   {
@@ -20,7 +21,7 @@ export const router = createBrowserRouter([
           { index: true, element: <Home /> },
           {
             path: "/channel",
-            children: [{ path: "new", element: <h1>New Channel</h1> }],
+            children: [{ path: "new", element: <Channel /> }],
           },
         ],
       },

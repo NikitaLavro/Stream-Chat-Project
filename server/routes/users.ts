@@ -51,7 +51,7 @@ export async function userRoutes(app: FastifyInstance) {
 
   app.post<{ Body: { token: string } }>("/logout", async (req, res) => {
     const token = req.body.token;
-    if (token == null || token === "") return res.status(400);
+    if (token == null || token === "") return res.status(400).send();
 
     const id = TOKEN_USER_ID_MAP.get(token);
     if (id == null) return res.status(400).send();
